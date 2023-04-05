@@ -28,8 +28,8 @@ sum(CASE WHEN status = 'delivered' THEN 1 ELSE 0 END) as pedidosEntregues,
 from entregas group by region, provider order by region;
 
 	-- Média dos ciclos de logística e custo de entrega por regiao e por transportadora
-select region, provider , avg(ordercreationtimeminutes), avg(processingtimeminutes), avg(leavingcentraldistributionminutes), avg(arrivalLocalDistributionMinutes), 
-avg(departureLocalDistributionMinutes), avg(deliveryTimeMinutes), avg(shipment_cost)
+select region, provider , avg(tempoFinalizacaoVendaMinutos), avg(tempoProcessamentoMinutos), avg(tempoPartidaCentralMinutos), avg(tempoChegadaLocalMinutos), 
+avg(tempoLiberacaoEntregaMinutos), avg(tempoEntregaMinutos), avg(shipment_cost)
  from entregas group by region, provider order by region;
 
 	-- Ao fazer a consulta de pedidos cancelados por transportadora, é possível ver que só há pedidos cancelados na transportadora 2

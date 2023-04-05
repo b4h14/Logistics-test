@@ -19,7 +19,7 @@ SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'Den
 	-- Calculando os medias de cada etapa na entrega retirando os 10% dos pedidos mais demorados
 SELECT provider, region, avg(tempopartidacentralMinutos) AS Etapa1Minutos, AVG(tempoChegadaLocalMinutos) AS Etapa2Minutos,
 AVG(tempoLiberacaoEntregaMinutos) AS Etapa3Minutos, AVG(tempoEntregaMinutos) AS Etapa4Minutos, AVG(tempoTotalEntregaDias) AS TotalDias
- FROM entregas WHERE id NOT IN (SELECT id FROM cicloentrega90) 
+ FROM entregas WHERE id NOT IN (SELECT id FROM cicloentrega90) AND STATUS = 'delivered'
 GROUP BY region, provider;
 
 		-- Outra alteracao na operacao para diminuir o tempo médio de entrega seria especializar certas etapas na provider que tem o menor
@@ -37,3 +37,11 @@ WITHIN GROUP (ORDER BY tempoProcessamentoMinutos) OVER (PARTITION BY pedidoPront
 		-- Houve 1 pedido da provider 1, mas foi devolvida.
 SELECT provider, region, STATUS, COUNT(*) FROM entregas WHERE tempoProcessamentoMinutos > 12000 
 GROUP BY provider, region, status ORDER BY tempoProcessamentoMinutos DESC ;
+
+SELECT region, AVG(tempoTotalEntregaDias) FROM entregas GROUP BY region;
+SELECT region, AVG(tempoTotalEntregaDias) FROM entregas WHERE id NOT IN (SELECT id FROM cicloentrega90) GROUP BY region;
+
+SELECT (SELECT COUNT(*) FROM entregas WHERE statusEntrega = 'EmDia'),
+(SELECT COUNT(*) FROM entregas),
+((SELECT COUNT(*) FROM entregas WHERE statusEntrega = 'EmDia') /
+(SELECT COUNT(*) FROM entregas)) * 100
