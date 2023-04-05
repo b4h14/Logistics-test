@@ -2,16 +2,16 @@
 SELECT AVG(tempoTotalEntregaDias) FROM entregas where id not IN (select id from cicloentrega90) and STATUS = 'delivered' and provider = 'provider 2';
 
 	-- Verificando o % das entregas igual ou menor de 3 dias por provider
-SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' AND provider = 'provider 2') /
-(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 2') * 100;
-SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' AND provider = 'provider 1') /
-(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 1') * 100;
+SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' AND provider = 'provider 2' and STATUS = 'delivered') /
+(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 2' and STATUS = 'delivered') * 100;
+SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' AND provider = 'provider 1' and STATUS = 'delivered') /
+(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 1' and STATUS = 'delivered') * 100;
 
 		-- Fazendo o cálculo com os 90% pedidos mais baratos
-SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' and provider = 'provider 2' AND id NOT IN (SELECT id FROM cicloentrega90)) /
-(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 2' AND id NOT IN (SELECT id FROM cicloentrega90)) * 100;
-SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' and provider = 'provider 1' AND id NOT IN (SELECT id FROM cicloentrega90)) /
-(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 1' AND id NOT IN (SELECT id FROM cicloentrega90)) * 100;	
+SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' and provider = 'provider 2' and STATUS = 'delivered' AND id NOT IN (SELECT id FROM cicloentrega90)) /
+(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 2' and STATUS = 'delivered' AND id NOT IN (SELECT id FROM cicloentrega90)) * 100;
+SELECT (select count(tempoTotalEntregaDias) FROM entregas WHERE Meta3Dias = 'DentroMeta3Dias' and provider = 'provider 1' and STATUS = 'delivered' AND id NOT IN (SELECT id FROM cicloentrega90)) /
+(select count(tempoTotalEntregaDias) FROM entregas WHERE provider = 'provider 1' AND STATUS = 'delivered' and id NOT IN (SELECT id FROM cicloentrega90)) * 100;	
 
 		-- É possível observar que, excluindo os 10% dos pedidos mais irregulares, a Provider 2 tem 27,74% das entregas abaixo de 3 dias,
 		-- enquanto a provider 1 tem 10,95%. Para chegar ao tempo médio de entrega em 3 dias, podemos aumentar os pedidos através do provider 2
